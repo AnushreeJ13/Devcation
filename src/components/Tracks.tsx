@@ -14,7 +14,7 @@ const tracks: Track[] = [
   {
     icon: "💻",
     name: "Hack & Solve",
-    desc: "Build a real-world solution using tech like AI, data, or security.",
+    desc: "Build a real-world solution using modern tech like AI, data, and security.",
     tag: "Prototype",
     accent: "#c084fc",
     accentRgb: "192,132,252",
@@ -23,7 +23,7 @@ const tracks: Track[] = [
   {
     icon: "🎨",
     name: "Design & Solve",
-    desc: "Craft intuitive UI/UX with wireframes and interactive prototypes.",
+    desc: "Craft intuitive UI/UX with wireframes and seamless user experiences.",
     tag: "Design",
     accent: "#fcd34d",
     accentRgb: "252,211,77",
@@ -32,7 +32,7 @@ const tracks: Track[] = [
   {
     icon: "🌐",
     name: "Tech for Good",
-    desc: "Build impactful solutions for real social challenges.",
+    desc: "Build impactful and inclusive solutions for real societal challenges.",
     tag: "Impact",
     accent: "#2dd4bf",
     accentRgb: "45,212,191",
@@ -49,7 +49,7 @@ const tracks: Track[] = [
   },
 ];
 
-function TrackCard({ track }: { track: Track }) {
+function TrackCard({ track, wide }: { track: Track; wide?: boolean }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -76,7 +76,7 @@ function TrackCard({ track }: { track: Track }) {
       ref={cardRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className="track-card"
+      className={`track-card ${wide ? "wide" : ""}`}
       style={{
         transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
       }}
@@ -93,10 +93,7 @@ function TrackCard({ track }: { track: Track }) {
           {track.icon}
         </div>
 
-        <h3
-          className="track-title"
-          style={{ color: track.accent }}
-        >
+        <h3 className="track-title" style={{ color: track.accent }}>
           {track.name}
         </h3>
 
@@ -132,12 +129,18 @@ const Tracks: React.FC = () => {
           margin-bottom: 2rem;
         }
 
+        /* 🔥 GRID */
         .grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          grid-template-columns: repeat(3, 1fr);
           gap: 1.5rem;
           max-width: 1100px;
           margin: auto;
+        }
+
+        /* 🔥 BIG CARD */
+        .track-card.wide {
+          grid-column: span 3;
         }
 
         .track-card {
@@ -193,8 +196,27 @@ const Tracks: React.FC = () => {
           border: 1px solid;
         }
 
+        /* 📲 TABLET */
+        @media (max-width: 1024px) {
+          .grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .track-card.wide {
+            grid-column: span 2;
+          }
+        }
+
         /* 📱 MOBILE */
         @media (max-width: 768px) {
+          .grid {
+            grid-template-columns: 1fr;
+          }
+
+          .track-card.wide {
+            grid-column: span 1;
+          }
+
           .section-title {
             font-size: 2rem;
           }
@@ -205,7 +227,7 @@ const Tracks: React.FC = () => {
 
       <div className="grid">
         {tracks.map((track, index) => (
-          <TrackCard key={index} track={track} />
+          <TrackCard key={index} track={track} wide={index === 3} />
         ))}
       </div>
     </section>
