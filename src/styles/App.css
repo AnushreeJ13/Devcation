@@ -1041,3 +1041,13 @@ body::before {
   .footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
   .footer-links { justify-content: center; }
 }
+/* 🔥 GLOBAL TEXT FIX FOR MOBILE */
+@media (max-width: 900px) {
+  body,
+  p,
+  span,
+  a,
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--white) !important;
+  }
+}
