@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -7,7 +7,7 @@ import Tracks from './components/Tracks';
 import Prizes from './components/Prizes';
 import Roadmap from './components/Roadmap';
 import Sponsors from './components/Sponsors.tsx';
-import FAQ from './components/FAQ';
+import FAQ from './components/Faq.tsx';
 import Footer from './components/Footer';
 import './styles/App.css';
 
