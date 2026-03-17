@@ -4,7 +4,7 @@ import { motion, useAnimation, useInView } from 'framer-motion';
 const Mascot: React.FC = () => {
   const controls = useAnimation();
   const ref = React.useRef(null);
-  const inView = useInView(ref, { threshold: 0.3, once: true });
+  const inView = useInView(ref, { amount: 0.3, once: true });
 
   React.useEffect(() => {
     if (inView) controls.start('visible');
@@ -15,25 +15,9 @@ const Mascot: React.FC = () => {
     visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } }
   };
 
-  const antlerVariants = {
-    animate: {
-      rotate: [0, 2, -2, 0],
-      transition: { repeat: Infinity, duration: 4, ease: 'easeInOut' }
-    }
-  };
-
-  const earVariants = {
-    animate: {
-      rotate: [0, 5, -5, 0],
-      transition: { repeat: Infinity, duration: 3, ease: 'easeInOut' }
-    }
-  };
-
-  const eyeVariants = {
-    animate: {
-      scaleY: [1, 0.1, 1],
-      transition: { repeat: Infinity, repeatDelay: 5, duration: 0.2 }
-    }
+  const antlerAnimation = {
+    rotate: [0, 2, -2, 0],
+    transition: { repeat: Infinity, duration: 4 }
   };
 
   return (
@@ -76,7 +60,7 @@ const Mascot: React.FC = () => {
           />
 
           {/* Left antler (animated) */}
-          <motion.g variants={antlerVariants} animate="animate">
+          <motion.g animate={antlerAnimation}>
             <line x1="155" y1="120" x2="120" y2="70" stroke="#f59e0b" strokeWidth="4" opacity="0.9" />
             <line x1="120" y1="70" x2="90" y2="45" stroke="#f59e0b" strokeWidth="3" opacity="0.85" />
             <line x1="120" y1="70" x2="100" y2="55" stroke="#f59e0b" strokeWidth="3" opacity="0.8" />
@@ -86,7 +70,7 @@ const Mascot: React.FC = () => {
           </motion.g>
 
           {/* Right antler (animated) */}
-          <motion.g variants={antlerVariants} animate="animate" transition={{ delay: 0.3 }}>
+          <motion.g animate={antlerAnimation} transition={{ delay: 0.3 }}>
             <line x1="185" y1="120" x2="220" y2="70" stroke="#f59e0b" strokeWidth="4" opacity="0.9" />
             <line x1="220" y1="70" x2="250" y2="45" stroke="#f59e0b" strokeWidth="3" opacity="0.85" />
             <line x1="220" y1="70" x2="240" y2="55" stroke="#f59e0b" strokeWidth="3" opacity="0.8" />

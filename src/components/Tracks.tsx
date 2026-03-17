@@ -59,7 +59,7 @@ const tracks: Track[] = [
   },
 ];
 
-function TrackCard({ track, index, wide }: { track: Track; index: number; wide?: boolean }) {
+function TrackCard({ track, wide }: { track: Track; wide?: boolean }) {
   const [tilt, setTilt]       = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const [mouse, setMouse]     = useState({ x: 50, y: 50 });
@@ -235,7 +235,7 @@ const Tracks: React.FC = () => (
       gap: '1.4rem',
     }}>
       {tracks.map((t, i) => (
-        <TrackCard key={i} track={t} index={i} wide={i === 3} />
+        <TrackCard key={i} track={t} wide={i === 3} />
       ))}
     </div>
 
