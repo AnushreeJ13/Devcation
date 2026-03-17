@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react';
 
 const stats = [
   { number: '₹3L+', label: 'Prize Pool' },
-  { number: '24H', label: 'Non-stop Hacking' },
+  
   { number: '2–4', label: 'Team Size' },
-  { number: 'FREE', label: 'To Participate' },
+
 ];
 
 const About: React.FC = () => {

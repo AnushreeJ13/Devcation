@@ -27,9 +27,17 @@
 
 html { scroll-behavior: smooth; }
 
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 body {
   font-family: 'Syne', system-ui, sans-serif;
-  background: var(--bg);
+  background: linear-gradient(-45deg, #0e0518, #130a22, #0e0518, #1a0d2e);
+  background-size: 400% 400%;
+  animation: bgShift 15s ease infinite;
   color: var(--white);
   overflow-x: hidden;
   line-height: 1.5;
@@ -115,8 +123,9 @@ body::before {
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 50px rgba(147, 51, 234, 0.8);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 60px rgba(147, 51, 234, 0.8);
+  animation: pulse 1s ease-in-out infinite;
 }
 
 .btn-secondary {
@@ -142,8 +151,8 @@ body::before {
 
 /* ── Reveal animation ── */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
@@ -171,14 +180,14 @@ body::before {
 }
 
 .nav-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  letter-spacing: 2px;
-  color: var(--white);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+}
+
+.nav-logo img {
+  height: 50px;
+  width: 70px;
 }
 
 .nav-logo span { color: var(--gold); }
@@ -237,6 +246,11 @@ body::before {
   pointer-events: none;
 }
 
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.6); }
+}
+
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -253,6 +267,7 @@ body::before {
   margin-bottom: 1.5rem;
   position: relative;
   z-index: 1;
+  animation: glow 3s ease-in-out infinite;
 }
 
 .hero-badge-dot {
@@ -350,6 +365,15 @@ body::before {
   height: 200px;
   pointer-events: none;
   opacity: 0.22;
+}
+
+.hero-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* ── MARQUEE ── */
@@ -507,13 +531,24 @@ body::before {
   max-width: 1200px;
   margin: 0 auto;
   padding: 6rem 2rem;
+  scroll-margin-top: 5rem;
 }
 
 .tracks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 3rem;
+  justify-items: center;
+}
+
+.track-card:nth-child(4) {
+  grid-column: 2 / span 1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 .track-card {
@@ -523,7 +558,23 @@ body::before {
   padding: 2rem;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.3s, transform 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  max-width: 260px;
+  cursor: pointer;
+  animation: float 6s ease-in-out infinite;
+}
+
+.track-card:nth-child(1) { animation-delay: 0s; }
+.track-card:nth-child(2) { animation-delay: 1s; }
+.track-card:nth-child(3) { animation-delay: 2s; }
+.track-card:nth-child(4) { animation-delay: 3s; }
+
+.track-card:hover {
+  border-color: var(--purple-mid);
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(147, 51, 234, 0.4);
+  animation-play-state: paused;
 }
 
 .track-card::before {
@@ -533,9 +584,10 @@ body::before {
   height: 3px;
 }
 
-.track-card:hover {
-  border-color: var(--purple-mid);
-  transform: translateY(-6px);
+.track-card.expanded {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(147, 51, 234, 0.4);
+  z-index: 10;
 }
 
 .track-icon {
@@ -906,13 +958,95 @@ body::before {
   font-size: 0.78rem;
   font-family: 'Space Mono', monospace;
 }
+.hero-particles {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.floating-icons {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.floating-icon {
+  position: absolute;
+  font-size: 2rem;
+  filter: drop-shadow(0 0 10px rgba(147,51,234,0.5));
+}
+.hero-3d {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  pointer-events: none; /* allow clicks to pass through to canvas? Actually we want buttons clickable */
+  pointer-events: auto;
+  background: transparent;
+  text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* Make canvas fill behind */
+.hero-3d canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Adjust hero title for 3D context (brighter, maybe with backdrop blur) */
+.hero-3d .hero-title {
+  font-size: clamp(4rem, 12vw, 10rem);
+  background: linear-gradient(180deg, #fff, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.hero-3d .hero-title-delhi {
+  background: linear-gradient(90deg, #f59e0b, #fcd34d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--purple-light);
+  font-size: 1.5rem;
+  z-index: 5;
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .navbar { padding: 1rem 1.5rem; }
   .nav-links { display: none; }
+  .hero { padding: 6rem 1rem 4rem; }
+  .hero-title { font-size: clamp(3rem, 12vw, 8rem); }
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .mascot { grid-template-columns: 1fr; }
+  .tracks { padding: 4rem 1rem; }
+  .tracks-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .track-card { padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; }
+  .track-icon { font-size: 2.2rem; }
+  .track-name { font-size: 1.5rem; }
   .prizes-grid { grid-template-columns: 1fr; }
   .prize-card.gold { transform: none; }
   .faq-grid { grid-template-columns: 1fr; }

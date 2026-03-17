@@ -1,9 +1,12 @@
 import React from 'react';
+import logo from '../assets/GDG_Devcation.png';
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-      <a className="nav-logo" href="#">🦌 DEVCATION <span>DELHI</span></a>
+      <a className="nav-logo" href="#">
+        <img src={logo} alt="Devcation Logo" />
+      </a>
       <ul className="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#tracks">Tracks</a></li>
